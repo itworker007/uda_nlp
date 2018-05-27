@@ -175,9 +175,12 @@ def final_model(input_dim, filters=256, kernel_size=7, dilation_rate=2,\
                  activation='relu',
                  name='conv1d_2')(x)    
     x = BatchNormalization(name='bn_conv1d')(x)    
-    x = Bidirectional(LSTM(units, return_sequences=True, implementation=2), name='bidir_rnn')(x)
-    x = LSTM(units, return_sequences=True, implementation=2, name='rnn')(x)
-    x = TimeDistributed(Dropout(0.5), name='time_dropout')(x)
+    x = Bidirectional(LSTM(units, return_sequences=True, implementation=2), name='bidir_rnn_1')(x)
+    x = BatchNormalization(name='bn_birnn_1')(x)
+    x = TimeDistributed(Dropout(0.6), name='time_dropout_1')(x)
+    x = Bidirectional(LSTM(units, return_sequences=True, implementation=2), name='bidir_rnn_2')(x)
+    x = BatchNormalization(name='bn_birnn_2')(x)
+    x = TimeDistributed(Dropout(0.6), name='time_dropout_2')(x)
     x = TimeDistributed(Dense(output_dim), name='time_dense')(x)
      
     # TODO: Add softmax activation layer
